@@ -1,0 +1,24 @@
+﻿<Application x:Class="PlGui.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:PlGui"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <Style x:Key="appStyleFont" TargetType="Control">
+            <Setter Property="FontFamily" Value="Calibri"/>
+        </Style>
+        <Style TargetType="ListView" BasedOn="{StaticResource appStyleFont}"/>
+        <Style TargetType="Button" BasedOn="{StaticResource appStyleFont}"/>
+        <Style TargetType="Label" BasedOn="{StaticResource appStyleFont}"/>
+        <Style TargetType="ListViewItem">
+            <Setter Property="HorizontalContentAlignment" Value="Right"/>
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Calibri"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="FontFamily" Value="Calibri"/>
+        </Style>
+
+    </Application.Resources>
+</Application>

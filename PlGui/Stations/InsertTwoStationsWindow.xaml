@@ -1,0 +1,119 @@
+﻿<Window x:Class="PlGui.InsertTwoStationsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controlers="clr-namespace:PlGui.userControls"
+        xmlns:local="clr-namespace:PlGui"
+        mc:Ignorable="d" ResizeMode="NoResize"  WindowStyle="None" WindowStartupLocation="CenterScreen" FontSize="16"
+        Title="BusesWindow" Height="450" Width="630" AllowsTransparency="True" MouseDown="window_MouseDown">
+    <Window.Background>
+        <ImageBrush ImageSource="/PlGui;component/Image/background.jpg" />
+    </Window.Background>
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="#FF4B6794"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+    </Window.Resources>
+    <Border BorderBrush="Black" BorderThickness="3">
+        <Grid>
+
+            <StackPanel Margin="15">
+
+                <!--stackPanel for enable the user to get information about two stations-->
+                <StackPanel>
+                    <TextBlock Grid.Column="1" Text=":התחנות לעדכון" Margin="0,5" HorizontalAlignment="Right" FontWeight="DemiBold"/>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="0.6*"/>
+                            <ColumnDefinition Width="0.6*"/>
+                            <ColumnDefinition Width="0.3*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Row="0" Grid.Column="3" Text=":קוד" HorizontalAlignment="Right"/>
+                        <TextBlock Grid.Row="1" Grid.Column="3" Text=":קוד" HorizontalAlignment="Right"/>
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text=":שם תחנה" HorizontalAlignment="Right"/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text=":שם תחנה" HorizontalAlignment="Right"/>
+
+                        <TextBlock Name="code1" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Right"/>
+                        <TextBlock Name="code2" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Right"/>
+                        <TextBox x:Name="name1" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right"
+                         IsReadOnly="True" Background="{x:Null}"/>
+                        <TextBox x:Name="name2" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" IsReadOnly="True"
+                         HorizontalContentAlignment="Right" Background="{x:Null}"/>
+                    </Grid>
+
+                    <Grid Margin="0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <!--button to replace between stations-->
+                        <Button Width="20" Height="20" Grid.Column="1" Click="replaceBetweenStationsButton_Click" >
+                            <Button.Template>
+                                <ControlTemplate>
+                                    <Ellipse Stroke="Black" StrokeThickness="1">
+                                        <Ellipse.Fill>
+                                            <ImageBrush ImageSource="/PlGui;component/Image/replaceIcon.jpg"/>
+                                        </Ellipse.Fill>
+                                    </Ellipse>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Opacity" Value="0.5"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                        <TextBlock Text="החלף בין התחנות" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5,0" />
+                    </Grid>
+
+
+                    <!--show the data about the stations in case that the user chose two stations -->
+                    <StackPanel Name="existDataStackPanel">
+                        <TextBlock  Margin="0,10,0,0" Text=":להלן הנתונים השמורים במערכת" HorizontalAlignment="Right" FontWeight="DemiBold"/>
+                        <Grid Margin="10" Name="dataGrid">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Text=":מרחק בין תחנות" HorizontalAlignment="Right" Grid.Column="1" 
+                                Margin="5" />
+                            <TextBlock Text=":זמן נסיעה בין תחנות" Grid.Column="1" Grid.Row="1"  HorizontalAlignment="Right" Margin="5"/>
+
+                            <TextBlock Name="distanceDataTextBlock" HorizontalAlignment="Right"  Foreground="#FF060632" Margin="5" />
+                            <TextBlock Name="timeDataTextBlock" Grid.Row="1" HorizontalAlignment="Right" Foreground="#FF060632" Margin="5" />
+                        </Grid>
+                    </StackPanel>
+                </StackPanel>
+
+
+                <!--stackPanel that enable the user update (or add) data about two stations -->
+                <StackPanel x:Name="addOrUpdateTwoStationsStackPanel">
+                    <TextBlock Text=":עדכון מידע בין שתי התחנות" HorizontalAlignment="Right" FontWeight="DemiBold"/>
+                    <TextBox Name="distanceTextBox" Margin="150,10,0,0" Text="...הכנס מרחק בין תחנות" HorizontalContentAlignment="Right"
+                         Foreground="Gray"  GotFocus="distanceTextBox_GotFocus" LostFocus="distanceTextBox_LostFocus"
+                         TextChanged="distanceTextBox_TextChanged" PreviewKeyDown="doubleNumber_PreviewKeyDown"/>
+                    <TextBlock Margin="0,10" Text=":הכנס זמן נסיעה ממוצע בין תחנות" HorizontalAlignment="Right" />
+                    <!--insert the time between stations-->
+                    <controlers:TimeTextBox HorizontalAlignment="Right" Text="00:00:00" x:Name="timeTextBox" />
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button Name="updateInfoButton" Content="עדכן מידע בין תחנות"  Margin="2,15"
+                        IsEnabled="False" Click="updateInfoButton_Click" Width="150"/>
+                        <Button x:Name="cancelButton" Content="ביטול" Margin="2,15" Width="150" Click="cancelButton_Click" />
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>

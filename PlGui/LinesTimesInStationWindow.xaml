@@ -1,0 +1,140 @@
+﻿<Window x:Class="PlGui.LinesTimesInStationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PlGui"
+        mc:Ignorable="d" ResizeMode="NoResize"  WindowStyle="None" WindowStartupLocation="CenterScreen" 
+        Title="LinesTimesInStationWindow" Height="450" Width="800" Closing="closing_Window" MouseDown="window_MouseDown" >
+    <Window.Resources>
+        <local:StationCodeToName x:Key="stationCodeToName"/>
+    </Window.Resources>
+    <Window.Background>
+        <ImageBrush ImageSource="/PlGui;component/Image/background.jpg" />
+    </Window.Background>
+    <Border BorderBrush="Black" BorderThickness="3">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="1" Content="יציאה" Width="50" FontSize="15" Opacity="0.5" FontWeight="Bold"
+                    Click="exitWindow_Click" Background="#FFC3C3E7" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="5" />
+           
+            <StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Name="clockTextBlock" Text="00:00:00" HorizontalAlignment="Right" Margin="0,0,20,0"  FontSize="40"  />
+                    <Image Source="Image/clockIcon.png" Grid.Column="1" Height="40"/>
+
+                </Grid>
+                <StackPanel Orientation="Horizontal" Margin="25,5" HorizontalAlignment="Right">
+                    <StackPanel.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="-0.508"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </StackPanel.RenderTransform>
+                    <TextBlock Text="x " FontSize="16" FontStyle="Oblique"/>
+                    <TextBox FontSize="16" Width="50" KeyDown="checkIfEnter_KeyDown" PreviewKeyDown="onlyNumbers_PreviewKeyDown"
+                         BorderBrush="Black" BorderThickness="3" Text="1" />
+                    <TextBlock Text="    :הכנס קצב שעון" VerticalAlignment="Center" FontSize="15"/>
+                </StackPanel>
+
+                <Grid Height="220" Margin="30,0">
+
+                    <ListBox Name="linesInStationListBox" ItemsSource="{Binding}" Grid.Row="0" Background="{x:Null}">
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="{x:Type ListBoxItem}">
+                                <Setter Property="Focusable" Value="False"/>
+                                <Setter Property="IsHitTestVisible" Value="False" />
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                        <ListBoxItem Background="White">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="40"/>
+                                    <ColumnDefinition Width="150"/>
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.Column="0" Source="/Image/stationBusIcon.PNG"/>
+                                <Grid Grid.Column="1">
+                                    <TextBlock x:Name="stationNameTextBlock" Text="{Binding Path=StationName}" HorizontalAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Top"
+                                       Margin="5" FontSize="14"/>
+                                    <TextBlock x:Name="stationCodeTextBlock" Text="{Binding Path=StationCode}" VerticalAlignment="Bottom" Margin="10,0"/>
+                                </Grid>
+                            </Grid>
+                        </ListBoxItem>
+                    </ListBox>
+                </Grid>
+
+            </StackPanel>
+            <Label Content=":יש לבחור תחנה מהרשימה*" Grid.Column="1" Margin="323.2,243,-323.4,-242.8" FontSize="15"/>
+            <ComboBox  Margin="47,271,41,113" Grid.Column="1" x:Name="listOfAllStations"   ItemsSource="{Binding}" HorizontalContentAlignment="Right" 
+                                  SelectionChanged="selectedStationFromList" IsTextSearchEnabled="true" TextSearch.TextPath="StationName" Height="30"
+                   FontSize="15">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="40"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBox Grid.Column="0" Text="{Binding Path= StationName }" HorizontalAlignment="Right" IsReadOnly="True" />
+                            <TextBlock Grid.Column="1" Text="{Binding Path= StationCode}" HorizontalAlignment="Right" />
+                        </Grid>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+
+
+            <ListView Name="timesInStationListView" Grid.Column="1" ItemsSource="{Binding}" Margin="47,30,41,200"  
+                  Background="{x:Null}" TextElement.FontSize="15"  BorderBrush="Black" BorderThickness="3">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="תחנה אחרונה" Width="200">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Path=LastStationCode, Converter={StaticResource stationCodeToName}}" FontSize="15" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                        <GridViewColumn Header="זמן עד להגעת הקו" Width="auto">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Path=TimingLeft}" FontSize="15" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+
+                        <GridViewColumn Header="שעת יציאה" Width="auto">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Path=ExitTimeFromFirstStation}" FontSize="15" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                        <GridViewColumn Header="מספר קו" Width="60">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Path=LineNumber}" HorizontalAlignment="Right" FontSize="15" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+        </Grid>
+    </Border>
+</Window>

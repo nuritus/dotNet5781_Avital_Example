@@ -1,0 +1,93 @@
+﻿<Window x:Class="dotNet5781_03B_0771_7072.WindowBusData"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:dotNet5781_03B_0771_7072"
+        mc:Ignorable="d"
+        Title="NewBusWindow" Height="450" Width="450"
+        Icon="Icons2/busdetails.jpg">
+    <Grid Background="{StaticResource myBackGround}">
+
+        <StackPanel Grid.Column="1">
+            <Label Content=": *תאריך ייצור" HorizontalContentAlignment="Right"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.5*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="0.5*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="0.5*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="0.5*"/>
+                </Grid.ColumnDefinitions>
+                <ComboBox x:Name="createDay" Grid.Column="1" IsEnabled="False" SelectionChanged="createDay_SelectionChanged"/>
+                <ComboBox x:Name="createMonth" Grid.Column="3" SelectionChanged="createMonth_SelectionChanged"/>
+                <ComboBox x:Name="createYear" Grid.Column="5" SelectionChanged="createYear_SelectionChanged"/>
+            </Grid>
+            <Label Content=": *מספר רישוי" HorizontalContentAlignment="Right"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBox x:Name="plateNumber" Grid.Column="1" TextChanged="plateNumber_TextChanged" MaxLength="7"  PreviewKeyDown="TextBox_OnlyNumbers_PreviewKeyDown" />
+            </Grid>
+            <Label Content=": *קילומטראז' כולל" HorizontalContentAlignment="Right"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBox x:Name="mileage" Grid.Column="1" TextChanged="mileage_TextChanged"  PreviewKeyDown="TextBox_OnlyNumbers_PreviewKeyDown"  />
+            </Grid>
+            <Label Content=": תאריך הטיפול האחרון" HorizontalContentAlignment="Right"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.5*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="0.5*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="0.5*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="0.5*"/>
+                </Grid.ColumnDefinitions>
+                <ComboBox x:Name="careDay" Grid.Column="1" IsEnabled="False"/>
+                <ComboBox x:Name="careMonth" Grid.Column="3" SelectionChanged="careMonth_SelectionChanged"/>
+                <ComboBox x:Name="careYear" Grid.Column="5"/>
+            </Grid>
+            <Label Content=": קילומטראז' מהטיפול האחרון" HorizontalContentAlignment="Right"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBox x:Name="mileageFromCare" Grid.Column="1" PreviewKeyDown="TextBox_OnlyNumbers_PreviewKeyDown"  />
+            </Grid>
+            <Label Content=": (כמות הדלק במיכל (בקילומטרים" HorizontalContentAlignment="Right"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBox x:Name="fuel" Grid.Column="1"  PreviewKeyDown="TextBox_OnlyNumbers_PreviewKeyDown" />
+            </Grid>
+            <Label Content=":סוג האוטובוס" HorizontalContentAlignment="Right"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <RadioButton x:Name="inCity" Grid.Column="1" HorizontalAlignment="Left" IsChecked="True" VerticalAlignment="Center" />
+                <RadioButton x:Name="betweenCities" Grid.Column="4" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                <Label Grid.Column="0" Content="עירוני" HorizontalContentAlignment="Right"/>
+                <Label Grid.Column="2" Content="בינעירוני" HorizontalContentAlignment="Right"/>
+            </Grid>
+            <Label Content="שדות חובה למילוי *"  HorizontalContentAlignment="Right" Foreground="#FFF30F0F"/>
+        </StackPanel>
+        <Button x:Name="finishButton" Grid.Column="1" Content="הוסף אוטובוס" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="25.2,0,0,27" Height="23" Width="99" Click="AddBus_Click"
+                IsEnabled="False"/>
+    </Grid>
+</Window>

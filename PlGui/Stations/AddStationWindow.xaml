@@ -1,0 +1,56 @@
+﻿<Window x:Class="PlGui.AddStationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PlGui"
+        mc:Ignorable="d" ResizeMode="NoResize" WindowStyle="None" WindowStartupLocation="CenterScreen"
+        Title="AddStationWindow" Height="400" Width="600" Closing="addStationWindow_Closing" MouseDown="window_MouseDown">
+
+    <Window.Background>
+        <ImageBrush ImageSource="/PlGui;component/Image/background.jpg" />
+    </Window.Background>
+
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="#FF4B6794"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+    </Window.Resources>
+    <Border BorderBrush="Black" BorderThickness="3">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+            <StackPanel Margin="100,0">
+                <TextBlock Text=":פרטי תחנה" HorizontalAlignment="Right" FontSize="16" FontWeight="DemiBold" Margin="0,10"/>
+                <Grid Margin="0,5">
+                    <StackPanel >
+                        <TextBox Name="stationCodeTextBox" Text=" ...קוד תחנה" Foreground="gray" HorizontalContentAlignment="Right" Margin="0,10"
+                             GotFocus="stationCodeTextBox_GotFocus" LostFocus="stationCodeTextBox_LostFocus" TextChanged="stationCodeTextBox_TextChange"
+                             PreviewKeyDown="onlyInteger_PreviewKeyDown" MaxLength="10"/>
+                        <TextBox Name="latitudeTextBox" Text=" ...קו רוחב" Foreground="gray" HorizontalContentAlignment="Right" Margin="0,10"
+                             GotFocus="latitudeTextBox_GotFocus" LostFocus="latitudeTextBox_LostFocus" TextChanged="latitudeTextBox_TextChange"
+                             PreviewKeyDown="onlyDouble_PreviewKeyDown"/>
+                        <TextBox Name="longitudeTextBox" Text=" ...קו אורך" Foreground="gray" HorizontalContentAlignment="Right" Margin="0,10"
+                             GotFocus="longitudeTextBox_GotFocus" LostFocus="longitudeTextBox_LostFocus" TextChanged="longitudeTextBox_TextChange"
+                             PreviewKeyDown="onlyDouble_PreviewKeyDown"/>
+                        <TextBox Name="stationNameTextBox" Text=" ...שם תחנה" Foreground="gray" HorizontalContentAlignment="Right" Margin="0,10"
+                             GotFocus="stationNameTextBox_GotFocus" LostFocus="stationNameTextBox_LostFocus" TextChanged="stationNameTextBox_TextChange"/>
+                        <TextBox Name="stationAddressTextBox" Text=" ...כתובת תחנה" Foreground="gray" HorizontalContentAlignment="Right" Margin="0,10"
+                             GotFocus="stationAddressTextBox_GotFocus" LostFocus="stationAddressTextBox_LostFocus" TextChanged="stationAddressTextBox_TextChange"/>
+                        <CheckBox x:Name="placeToSitCheckBox" FlowDirection="RightToLeft" Content="מקומות ישיבה בתחנה" Margin="0,5"/>
+                        <CheckBox x:Name="timeBoardCheckBox" FlowDirection="RightToLeft" Content="לוח זמני הגעת אוטובוסים בתחנה" Margin="0,5"/>
+                    </StackPanel>
+                </Grid>
+                <StackPanel Orientation="Horizontal" Height="40" Margin="0,20" HorizontalAlignment="Center">
+                    <Button Width="150" Name="AddStationToSystemButton" Content="הוסף תחנה למערכת" Margin="2,5" Click="AddStationToSystem_Click" IsEnabled="False"
+                 Background="#FF4B6794" Foreground="White"/>
+                    <Button Width="150" Name="cancelButton" Content="ביטול" Margin="2,5" Click="cancelButton_Click" 
+                 Background="#FF4B6794" Foreground="White"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>

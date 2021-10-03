@@ -1,0 +1,121 @@
+﻿<Window x:Class="PlGui.AddLineWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PlGui"
+        mc:Ignorable="d"
+                Title="BusesWindow" Height="400" Width="750" ResizeMode="NoResize" WindowStyle="None" WindowStartupLocation="CenterScreen"
+        Closing="addLineWindow_Closing" MouseDown="window_MouseDown">
+    <Window.Background>
+        <ImageBrush ImageSource="/PlGui;component/Image/background.jpg" />
+    </Window.Background>
+    <Border BorderThickness="3" BorderBrush="Black">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="140"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Height="40" Margin="0,10" HorizontalAlignment="Center" VerticalAlignment="Top">
+            <Button Width="150" Name="AddLineToSystemButton" Content="הוסף קו למערכת" Margin="2,10" Click="AddLineToSystem_Click" IsEnabled="False"
+                 Background="#FF4B6794" Foreground="White"/>
+            <Button Width="150" Name="cancelButton" Content="ביטול" Margin="2,10" Click="cancelButton_Click" 
+                 Background="#FF4B6794" Foreground="White"/>
+        </StackPanel>
+        <StackPanel Margin="100,0">
+            <TextBlock Text=":פרטי קו" HorizontalAlignment="Right" FontSize="16" FontWeight="DemiBold" Margin="0,10"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="1">
+
+                    <TextBox Name="lineNumberTextBox" Text=" ...מספר הקו" Foreground="gray" HorizontalContentAlignment="Right" Margin="0,10"
+                             GotFocus="lineNumberTextBox_GotFocus" LostFocus="lineNumberTextBox_LostFocus" TextChanged="lineNumberTextBox_TextChange"
+                             PreviewKeyDown="OnlyNumbers_PreviewKeyDown" MaxLength="3"/>
+                    <TextBlock Text=":בחר אזור פעילות קו" HorizontalAlignment="Right" Margin="0,10,0,0"/>
+                    <!--comboBox with the options of areas to the line activity -->
+                    <ComboBox Margin="0,5" Name="listOfArea" SelectionChanged="lineOfArea_SelectedChange">
+                        <ComboBoxItem Content="ירושלים" HorizontalContentAlignment="Right"/>
+                        <ComboBoxItem Content="מרכז"  HorizontalContentAlignment="Right"/>
+                        <ComboBoxItem Content="צפון"  HorizontalContentAlignment="Right"/>
+                        <ComboBoxItem Content="דרום"  HorizontalContentAlignment="Right"/>
+                        <ComboBoxItem Content="ארצי"  HorizontalContentAlignment="Right"/>
+                    </ComboBox>
+                    <TextBlock Text=" :הוספת תחנות למסלול הקו" HorizontalAlignment="Right" Margin="0,20,0,5" FontSize="14" FontWeight="DemiBold" />
+                    <StackPanel Name="addStationStackPanel">
+                        <TextBlock Text=":יש לבחור תחנה מהרשימה הבאה" HorizontalAlignment="Right"/>
+
+
+                        <!--comboBox with all the stations that exists -->
+                        <ComboBox Margin="0,5" x:Name="listOfAllStations" ItemsSource="{Binding}" HorizontalContentAlignment="Right" 
+                                  SelectionChanged="selectedStationFromList" IsTextSearchEnabled="true" TextSearch.TextPath="StationName">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="40"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Grid.Column="0" Text="{Binding Path= StationName }" HorizontalAlignment="Right" IsReadOnly="True" />
+                                        <TextBlock Grid.Column="1" Text="{Binding Path= StationCode}" HorizontalAlignment="Right" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+
+
+                        <Button Name="addStationButton" Content="הוסף תחנה" Click="AddStationButton_Click" IsEnabled="false" 
+                                Background="#FF4B6794" Foreground="White"/>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Grid.Column="0" Name="listOfStationsStackPanel">
+                    <TextBlock Text=":רשימת תחנות הקו" HorizontalAlignment="Center"/>
+                    <!--ListBox with all the stations that the user add to the path-->
+                    <ListView Name="listOfPathStationsListView" ItemsSource="{Binding}" Margin="15"
+                  Background="{x:Null}" TextElement.FontSize="12" SelectionMode="Single">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="מחיקה" Width="auto">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Height="20" Width="20" Click="deleteStationFromList_Click">
+                                                <Image Source="/PlGui;component/Image/garbageImage.jpg"/>
+                                            </Button>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+
+                                <GridViewColumn Header="שם תחנה" Width="105">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=StationName}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+
+                                <GridViewColumn Header="קוד תחנה" Width="auto">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=StationCode}" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+
+                                <GridViewColumn Header="מס' במסלול" Width="auto">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=StationNumberInPath }"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+    </Grid>
+    </Border>
+</Window>

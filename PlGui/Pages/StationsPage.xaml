@@ -1,0 +1,136 @@
+﻿<Page x:Class="PlGui.Pages.StationsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:PlGui.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="535" d:DesignWidth="1000"
+      Title="StationsPage">
+
+    <Page.Resources>
+        <Style TargetType="{x:Type Button}">
+            <Style.Triggers>
+                <Trigger Property="Control.IsEnabled" Value="false">
+                    <Setter Property="Control.Opacity" Value="0.4" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Page.Resources>
+    <Page.Background>
+        <ImageBrush ImageSource="/PlGui;component/Image/background.jpg" />
+    </Page.Background>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="0.8*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="1" Margin="15,15" Background="{x:Null}">
+            <Grid VerticalAlignment="Bottom" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <!--Button to add a new station-->
+                <Button Width="50" Background="{x:Null}" Height="50" Click="AddStationButton_Click" VerticalAlignment="Bottom" Grid.Column="1"
+                    Margin="10">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Ellipse Stroke="Green" StrokeThickness="3">
+                                <Ellipse.Fill>
+                                    <ImageBrush ImageSource="/PlGui;component/Image/plusIcon.png" />
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Opacity" Value="0.5"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                <TextBlock Text="הוסף תחנה" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="16" FontWeight="DemiBold"/>
+
+                <!--Button to update information between two stations-->
+                <Button Width="50" Background="{x:Null}" Height="50" Click="updateTwoStationsButton_Click" VerticalAlignment="Bottom" Grid.Column="1"
+                        Grid.Row="1" Margin="15" Name="updateTwoStationsButton" IsEnabled="False">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Ellipse Stroke="#FF3F60AD" StrokeThickness="3" >
+                                <Ellipse.Fill>
+                                    <ImageBrush ImageSource="/PlGui;component/Image/updateIcon.png" >
+                                        <ImageBrush.RelativeTransform>
+                                            <TransformGroup>
+                                                <ScaleTransform/>
+                                                <SkewTransform/>
+                                                <RotateTransform/>
+                                                <TranslateTransform/>
+                                            </TransformGroup>
+                                        </ImageBrush.RelativeTransform>
+                                    </ImageBrush>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Opacity" Value="0.5"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                <TextBlock Grid.Row="1" Text="עדכון מידע בין תחנות" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" 
+                           FontSize="16" FontWeight="DemiBold"/>
+                <TextBlock Grid.Row="1" Text="יש לבחור תחילה 2 תחנות מהרשימה" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,48,0.2,15" Height="17" Foreground="#FF4079A2"
+                           />
+
+                <TextBlock Grid.Row="2" Text=" לתצוגת פרטי תחנה וכן לעדכון הפרטים יש ללחוץ לחיצה כפולה על התחנה הרצויה" TextWrapping="Wrap"
+                           Grid.ColumnSpan="2" TextAlignment="Right" Margin="5,0,17,10" Foreground="#FFB96060" />
+
+            </Grid>
+        </Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+
+            <!--the list of all the stations in the system-->
+            <ListView Grid.Column="0" Margin="15" Name="stationsListView" ItemsSource="{Binding}"  Visibility="Visible" SelectionMode="Multiple"
+                  MouseDoubleClick="stationsListView_DoubleClick" HorizontalContentAlignment="Right"  Background="{x:Null}" TextElement.FontSize="15"
+                      SelectionChanged="stationslistView_SelectionChanged">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="מחיקה" Width="auto">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Height="30" Width="30" Click="deleteStationButton_Click" >
+                                        <Button.Content>
+                                            <Image Source="/PlGui;component/Image/garbageImage.jpg" />
+                                        </Button.Content>
+                                    </Button>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                        <GridViewColumn Header="שם תחנה" Width="538"  >
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Label Content="{Binding Path=StationName}" HorizontalContentAlignment="Right" Foreground="#FF206989" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="קוד תחנה" Width="78">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Label Content="{Binding Path=StationCode}" HorizontalContentAlignment="Center" Foreground="#FF206989" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+
+            </ListView>
+        </ScrollViewer>
+    </Grid>
+</Page>
